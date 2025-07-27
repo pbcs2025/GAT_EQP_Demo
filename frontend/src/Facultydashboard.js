@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./dashboard.css";
 
 function FacultyDashboard() {
+  const navigate = useNavigate();
+  const [showConfirm, setShowConfirm] = useState(false);
   const [showResetPopup, setShowResetPopup] = useState(false);
   const [showResetForm, setShowResetForm] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
@@ -11,7 +14,14 @@ function FacultyDashboard() {
 
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  
+
+  const handleLogoutClick = () => setShowConfirm(true);
+  const confirmLogout = () => {
+    setShowConfirm(false);
+    navigate("/");
+  };
+  const cancelLogout = () => setShowConfirm(false);
 
   const handleResetPassword = () => {
     setShowResetPopup(true);
@@ -65,7 +75,9 @@ function FacultyDashboard() {
         <a href="#">View Papers</a>
         <a href="#">Submit Questions</a>
         <a href="#" onClick={handleResetPassword}>Reset Password</a>
-        <a href="#">Logout</a>
+        <a href="#" onClick={handleLogoutClick} style={{ color: "red" }}>
+          Logout
+        </a>
       </div>
 
       <div className="dashboard-content">
@@ -133,6 +145,17 @@ function FacultyDashboard() {
           </div>
         )}
       </div>
+      {showConfirm && (
+        <div className="logout-confirm-popup">
+          <div className="popup-box">
+            <p>Are you sure you want to logout?</p>
+            <div className="button-group">
+              <button className="yes" onClick={confirmLogout}>Yes</button>
+              <button className="no" onClick={cancelLogout}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
