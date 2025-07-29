@@ -394,3 +394,83 @@ button[type="submit"] {
 .popup-content .cancel:hover {
   background-color: #c82333;
 }
+/* Enhanced form styling inside Manage Faculties section */
+.reset-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 600px;
+  margin: 30px auto;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  font-family: "Times New Roman", serif;
+}
+
+.reset-form h2 {
+  color: #1e1e2f;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #1e1e2f;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #0057e7;
+  box-shadow: 0 0 0 3px rgba(0, 87, 231, 0.2);
+  outline: none;
+}
+
+button[type="button"] {
+  background-color: #0057e7;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="button"]:hover {
+  background-color: #0047c2;
+  transform: scale(1.05);
+}
+
+/* Responsive improvement */
+@media (max-width: 600px) {
+  .reset-form {
+    padding: 20px;
+    margin: 20px 10px;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 14px;
+  }
+
+  button[type="button"] {
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+}
+
