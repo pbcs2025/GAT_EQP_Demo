@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './App.css';
+import axios from 'axios';
+import '../App.css';
 
 function QuestionPaperBuilder() {
   const [college, setCollege] = useState('');
@@ -62,6 +63,24 @@ function QuestionPaperBuilder() {
     const updatedModules = [...modules];
     updatedModules[modIndex].groups[groupIndex][qIndex][key] = val;
     setModules(updatedModules);
+  };
+
+  const saveQuestionPaper = async () => {
+    try {
+      await axios.post('http://localhost:5000/api/question-paper/save', {
+        college,
+        usn,
+        subject,
+        subject_code: subjectCode,
+        semester,
+        instructions,
+      });
+
+      alert('Question paper saved successfully!');
+    } catch (error) {
+      console.error('Error saving question paper:', error);
+      alert('Failed to save question paper.');
+    }
   };
 
   return (
@@ -189,11 +208,7 @@ function QuestionPaperBuilder() {
                       />
                     </div>
                   ))}
-                  {groupIndex === 0 && (
-                    <p className="or-text">
-                      <strong>-- OR --</strong>
-                    </p>
-                  )}
+                  {groupIndex === 0 && <p className="or-text"><strong>-- OR --</strong></p>}
                 </div>
               ))
             )}
@@ -225,17 +240,13 @@ function QuestionPaperBuilder() {
                 <>
                   {mod.groups[0].map((q, i) => (
                     <div key={i}>
-                      {q.label}) {q.text} <strong>[{q.marks} marks]</strong>{' '}
-                      <em>CO: {q.co || 'N/A'}</em>
+                      {q.label}) {q.text} <strong>[{q.marks} marks]</strong> <em>CO: {q.co || 'N/A'}</em>
                     </div>
                   ))}
-                  <p className="or-text">
-                    <strong>-- OR --</strong>
-                  </p>
+                  <p className="or-text"><strong>-- OR --</strong></p>
                   {mod.groups[1].map((q, i) => (
                     <div key={i}>
-                      {q.label}) {q.text} <strong>[{q.marks} marks]</strong>{' '}
-                      <em>CO: {q.co || 'N/A'}</em>
+                      {q.label}) {q.text} <strong>[{q.marks} marks]</strong> <em>CO: {q.co || 'N/A'}</em>
                     </div>
                   ))}
                 </>
@@ -243,6 +254,10 @@ function QuestionPaperBuilder() {
             </div>
           ))}
         </div>
+
+        <button className="save-btn" onClick={saveQuestionPaper}>
+          💾 Save Question Paper
+        </button>
       </div>
     </div>
   );
