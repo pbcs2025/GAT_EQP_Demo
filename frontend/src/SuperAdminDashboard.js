@@ -107,7 +107,7 @@ function SuperAdminDashboard() {
           </>
         )}
 
-        {activeTab === "manageUsers" && <ManageUsers />}
+        {activeTab === "manageUsers" && <ManageUsers userType="superadmin"/>}
 
         {activeTab === "settings" && (
           <div>

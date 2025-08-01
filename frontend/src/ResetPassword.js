@@ -24,7 +24,9 @@ function ResetPassword() {
       const data = await response.json();
       if (response.ok) {
         setMessage("✅ Password updated. Redirecting...");
-        setTimeout(() => navigate("/faculty-dashboard"), 2000);
+        setOldPassword("");
+        setNewPassword("");
+        //setTimeout(() => navigate("/faculty-dashboard"), 2000);
       } else {
         setMessage("❌ " + data.error);
       }

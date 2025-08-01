@@ -1,28 +1,57 @@
 import React, { useEffect, useState } from "react";
 import "./dashboard.css";
 
-function ManageUsers() {
+function ManageUsers({userType}) {
   const [internalFaculties, setInternalFaculties] = useState([]);
   const [otherFaculties, setOtherFaculties] = useState([]);
   const [selectedEmails, setSelectedEmails] = useState([]);
+  console.log(userType);
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/users")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       const internal = [];
+  //       const others = [];
+
+  //       data.forEach((user) => {
+  //         const clg = (user.clgName || "").toLowerCase();
+  //         if (clg.includes("global academy of technology") || clg === "gat") {
+  //           internal.push(user);
+  //         } else {
+  //           others.push(user);
+  //         }
+  //       });
+
+  //       setInternalFaculties(internal);
+  //       setOtherFaculties(others);
+  //     })
+  //     .catch((err) => console.error("Fetch error:", err));
+  // }, []);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/users")
       .then((res) => res.json())
       .then((data) => {
         const internal = [];
-        const others = [];
 
         data.forEach((user) => {
-          const clg = (user.clgName || "").toLowerCase();
-          if (clg.includes("global academy of technology") || clg === "gat") {
-            internal.push(user);
-          } else {
-            others.push(user);
-          }
+           internal.push(user);
         });
 
         setInternalFaculties(internal);
+      })
+      .catch((err) => console.error("Fetch error:", err));
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/externalusers")
+      .then((res) => res.json())
+      .then((data) => {
+        const others = [];
+
+        data.forEach((user) => {
+            others.push(user);
+        });
         setOtherFaculties(others);
       })
       .catch((err) => console.error("Fetch error:", err));
@@ -35,8 +64,8 @@ function ManageUsers() {
         : [...prev, email]
     );
   };
-
-  const renderTable = (users) => (
+const renderTable = (users) => (
+  <div className="table-wrapper">
     <table className="user-table">
       <thead>
         <tr>
@@ -45,7 +74,7 @@ function ManageUsers() {
           <th>Department</th>
           <th>Email</th>
           <th>Contact</th>
-          <th>Select as QP Setter</th>
+          {userType === "superadmin" && <th>Select as QP Setter</th>}
         </tr>
       </thead>
       <tbody>
@@ -58,28 +87,61 @@ function ManageUsers() {
               <td>{u.deptName}</td>
               <td>{u.email}</td>
               <td>{u.phoneNo}</td>
-              <td>
-                <button
-                  className={`qp-select-btn ${isSelected ? "selected" : ""}`}
-                  onClick={() => handleSelect(u.email)}
-                >
-                  {isSelected ? "Selected" : "Select"}
-                </button>
-              </td>
+              {userType === "superadmin" && (
+                <td>
+                  <button
+                    className={`qp-select-btn ${isSelected ? "selected" : ""}`}
+                    onClick={() => handleSelect(u.email)}
+                  >
+                    {isSelected ? "Selected" : "Select"}
+                  </button>
+                </td>
+              )}
             </tr>
           );
         })}
       </tbody>
     </table>
-  );
+
+    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+      <button className="qp-confirm-btn" >Confirm</button>
+    </div>
+  </div>
+);
+
+
+  // return (
+  //   <div className="manage-users">
+  //     <h2>Internal Faculties List</h2>
+  //     {renderTable(internalFaculties)}
+
+  //     <h2 style={{ marginTop: "30px" }}>Other Faculties</h2>
+  //     {renderTable(otherFaculties)}
+  //   </div>
+  // );
 
   return (
     <div className="manage-users">
-      <h2>Internal Faculties List</h2>
-      {renderTable(internalFaculties)}
+      {(userType === "superadmin") && (
+  <>
+    <h2>Internal Faculties List</h2>
+    {renderTable(internalFaculties)}
+  </>
+)}
 
-      <h2 style={{ marginTop: "30px" }}>Other Faculties</h2>
-      {renderTable(otherFaculties)}
+{(userType === "superadmin" ) && (
+  <>
+    <h2 style={{ marginTop: "30px" }}>External Faculties List</h2>
+    {renderTable(otherFaculties)}
+  </>
+)}
+
+{(userType === "admin") && (
+  <>
+    {renderTable(otherFaculties)}
+  </>
+)}
+
     </div>
   );
 }
