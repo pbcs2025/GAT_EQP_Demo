@@ -20,10 +20,12 @@ function FacultyLogin() {
     const errors = validateLogin(formValues);
     setFormErrors(errors);
 
+
     if (Object.keys(errors).length === 0) {
       const { username, password } = formValues;
-      if (username === "admin" && password === "admin123") {
-        navigate("/admin-dashboard");
+            if (username === "admin" && password === "admin123") {
+        localStorage.setItem("faculty_username", username);
+        navigate("/faculty-dashboard");
       } else {
         setLoginMessage("❌ Invalid credentials.");
       }

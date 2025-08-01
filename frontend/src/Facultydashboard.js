@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./dashboard.css";
+import { Link } from 'react-router-dom';
+
+<Link to="/question-paper-builder">View Papers</Link>
+
+
 
 function FacultyDashboard() {
   const navigate = useNavigate();
@@ -88,16 +93,15 @@ function FacultyDashboard() {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <h2>Faculty</h2>
-        <a href="#" onClick={() => handleResetPassword("")} >Dashboard</a>
-        <a href="#" onClick={() => handleResetPassword("")}>View Papers</a>
-        <a href="#" onClick={() => handleResetPassword("")}>Submit Questions</a>
-        {/* <a href="#" onClick={handleResetPassword}>Reset Password</a> */}
-        <a href="#" onClick={() => handleResetPassword("faculty")}>Reset Password</a>
-        <a href="#" onClick={handleLogoutClick} style={{ color: "red" }}>
-          Logout
-        </a>
-      </div>
+
+        
+  <a href="#">Dashboard</a>
+  <Link to="/question-paper-builder">View Papers</Link>
+  <a href="#">Submit Questions</a>
+  <a href="#" onClick={handleResetPassword}>Reset Password</a>
+  <a href="#" onClick={handleLogoutClick} style={{ color: "red" }}>Logout</a>
+</div>
+      
 
       <div className="dashboard-content">
         <h1>Welcome to Faculty Dashboard</h1>
