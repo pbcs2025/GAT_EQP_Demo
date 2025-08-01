@@ -12,8 +12,8 @@ import FacultyDashboard from "./Facultydashboard";
 import PaperSetterDashboard from "./Papersetterdashboard";
 import ManageUsers from "./ManageUsers";
 import QuestionPaperBuilder from "./components/QuestionPaperBuilder";
-
-
+import AdminManageFaculty from "./AdminManageFaculty";
+import AdminManageFacultyPage from "./AdminManageFacultyPage";
 
 function App() {
   return (
@@ -30,10 +30,10 @@ function App() {
         <Route path="/faculty-dashboard" element={<FacultyDashboard />} />
         <Route path="/paper-setter-dashboard" element={<PaperSetterDashboard />} />
         <Route path="/manage-users" element={<ManageUsers />} />
-         <Route path="/faculty-dashboard" element={<FacultyDashboard />} />
         <Route path="/question-paper-builder" element={<QuestionPaperBuilder />} />
-
-        </Routes>
+        <Route path="/admin/manage-faculty" element={<AdminManageFaculty />} />
+        <Route path="/admin/manage-faculty-page" element={<AdminManageFacultyPage />} />
+      </Routes>
     </Router>
   );
 }

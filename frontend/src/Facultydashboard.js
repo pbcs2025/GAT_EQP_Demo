@@ -28,9 +28,20 @@ function FacultyDashboard() {
   };
   const cancelLogout = () => setShowConfirm(false);
 
-  const handleResetPassword = () => {
+  // const handleResetPassword = () => {
+  //   setShowResetPopup(true);
+  // };
+
+  const handleResetPassword = (role) => {
+  console.log("Role is:", role); // Output: faculty
+  if(role === "faculty"){
     setShowResetPopup(true);
-  };
+    setShowResetForm(false);
+  }else{
+     setShowResetPopup(false);
+     setShowResetForm(false);
+  }
+};
 
   const confirmReset = () => {
     setShowResetPopup(false);
@@ -62,7 +73,14 @@ function FacultyDashboard() {
       const data = await res.json();
       if (res.ok) {
         setMessage("✅ Password updated successfully.");
-        setShowResetForm(false);
+       // setShowResetForm(false);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setTimeout(() => {
+          setMessage(""); // Clear the message after 5 seconds
+        }, 5000);
+
       } else {
         setMessage(`❌ ${data.error}`);
       }
@@ -75,7 +93,7 @@ function FacultyDashboard() {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <h2>Faculty</h2>
+
         
   <a href="#">Dashboard</a>
   <Link to="/question-paper-builder">View Papers</Link>

@@ -1,31 +1,59 @@
-const nodemailer = require("nodemailer");
+// const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
+//     async function sendTestEmail() {
+//         let transporter = nodemailer.createTransport({
+//             host: "smpt.gmail.com", // Example host, replace with your service's host
+//             port: 587, // Example port
+//             secure: false, // Use 'true' if your service requires SSL/TLS
+//             auth: {
+//                 user: process.env.EMAIL_USER, // Replace with your Mailtrap username
+//                 pass: process.env.EMAIL_PASSWORD  // Replace with your Mailtrap password
+//             }
+//         });
+
+//         let info = await transporter.sendMail({
+//             from: `"Prathibha B C" <${process.env.EMAIL_USER}>`,
+//             to: "ramyam1496@gmail.com",
+//             subject: "Test Email",
+//             text: "This is a test email sent without real authentication.",
+//             html: "<b>This is a test email sent without real authentication.</b>"
+//         });
+
+//         console.log("Message sent: %s", info.messageId);
+//         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+//     }
+
+//     sendTestEmail().catch(console.error);
+
+// module.exports = sendWelcomeEmail;
+
+
+
+const nodemailer = require('nodemailer');
+
+async function sendTestEmail(to, subject, text, html) {
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
-        user: process.env.EMAIL_USER, // Gmail address
-        pass: process.env.EMAIL_PASS  // App-specific password
-    },
-    tls: {
-        rejectUnauthorized: false  // ⬅️ This avoids the self-signed cert issue just for email
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
     }
-});
+  });
 
-const sendWelcomeEmail = (to, username, password) => {
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: to,
-        subject: "Welcome to GAT Exam Portal",
-        html: `
-            <h3>Welcome to the GAT Exam Registration Portal!</h3>
-            <p>Your registration was successful.</p>
-            <p><strong>Username:</strong> ${username}</p>
-            <p><strong>Password:</strong> ${password}</p>
-            <p>Please log in and change your password after first login.</p>
-        `
-    };
+  let info = await transporter.sendMail({
+    from: `"Admin GAT COE" <${process.env.EMAIL_USER}>`,
+    to,
+    subject,
+    text,
+    html,
+  });
 
-    return transporter.sendMail(mailOptions);
-};
+  console.log("Email sent:", info.messageId);
+  return info;
+}
 
-module.exports = sendWelcomeEmail;
+// 👇 Export it
+module.exports = sendTestEmail;
+
