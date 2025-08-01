@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
-const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const sendEmail = require('../utils/mailer');
+
 
 // Generate unique username
 async function generateUniqueUsername(baseName) {
@@ -35,23 +36,15 @@ router.post("/register", async (req, res) => {
         console.error("Insert error:", err);
         return res.status(500).json({ error: "Database insert failed" });
       }
-
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.MAIL_USER,
-          pass: process.env.MAIL_PASS,
-        },
-      });
-
-      const mailOptions = {
-        from: process.env.MAIL_USER,
-        to: email,
-        subject: "Welcome to GAT Portal",
-        text: `Hi ${baseName},\n\nYour username: ${username}\nPassword: ${password}\nPlease change your password after logging in.`,
-      };
-
-      await transporter.sendMail(mailOptions);
+      console.log("Sending email to:", email);
+     try { await sendEmail(
+      email,
+      "Welcome to GAT Portal","",
+      `<p>Hi ${baseName},<br><br>Your username: ${username}<br>Password: ${password}<br>Please change your password after logging in.</p>`  
+    );
+    } catch (mailError) {
+  console.error("Failed to send email:", mailError);
+}
       res.status(201).json({ message: "Registration successful", credentials: { username, password } });
     });
   } catch (error) {

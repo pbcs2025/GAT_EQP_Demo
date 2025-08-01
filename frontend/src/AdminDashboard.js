@@ -82,7 +82,8 @@ function AdminDashboard() {
         >
           Manage Faculties
         </a>
-        <a href="#">Reports</a>
+        <a href="#" onClick={() => setActiveTab("reports")}
+          className={activeTab === "reports" ? "active-tab" : ""}>Reports</a>
         <a href="#" onClick={handleLogoutClick} style={{ color: "red" }}>
           Logout
         </a>
@@ -96,9 +97,19 @@ function AdminDashboard() {
           </>
         )}
 
+
         {activeTab === "faculties" && (
   <AdminManageFacultyPage />
 )}
+
+        
+        {activeTab === "reports" && (
+          <>
+            <h1>Reports</h1>
+            <p>Reports will be updated soon...</p>
+          </>
+        )}
+
       </div>
 
       {showConfirm && (

@@ -64,8 +64,8 @@ function ManageUsers({userType}) {
         : [...prev, email]
     );
   };
-
-  const renderTable = (users) => (
+const renderTable = (users) => (
+  <div className="table-wrapper">
     <table className="user-table">
       <thead>
         <tr>
@@ -74,7 +74,7 @@ function ManageUsers({userType}) {
           <th>Department</th>
           <th>Email</th>
           <th>Contact</th>
-         {userType === "superadmin" && <th>Select as QP Setter</th>}
+          {userType === "superadmin" && <th>Select as QP Setter</th>}
         </tr>
       </thead>
       <tbody>
@@ -87,20 +87,28 @@ function ManageUsers({userType}) {
               <td>{u.deptName}</td>
               <td>{u.email}</td>
               <td>{u.phoneNo}</td>
-              {userType === "superadmin" && <td>
-                <button
-                  className={`qp-select-btn ${isSelected ? "selected" : ""}`}
-                  onClick={() => handleSelect(u.email)}
-                >
-                  {isSelected ? "Selected" : "Select"}
-                </button>
-              </td>}
+              {userType === "superadmin" && (
+                <td>
+                  <button
+                    className={`qp-select-btn ${isSelected ? "selected" : ""}`}
+                    onClick={() => handleSelect(u.email)}
+                  >
+                    {isSelected ? "Selected" : "Select"}
+                  </button>
+                </td>
+              )}
             </tr>
           );
         })}
       </tbody>
     </table>
-  );
+
+    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+      <button className="qp-confirm-btn" >Confirm</button>
+    </div>
+  </div>
+);
+
 
   // return (
   //   <div className="manage-users">
