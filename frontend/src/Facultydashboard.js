@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./dashboard.css";
 
 function FacultyDashboard() {
@@ -14,29 +14,26 @@ function FacultyDashboard() {
 
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
-  
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleLogoutClick = () => setShowConfirm(true);
+
   const confirmLogout = () => {
     setShowConfirm(false);
     navigate("/");
   };
+
   const cancelLogout = () => setShowConfirm(false);
 
-  // const handleResetPassword = () => {
-  //   setShowResetPopup(true);
-  // };
-
   const handleResetPassword = (role) => {
-  console.log("Role is:", role); // Output: faculty
-  if(role === "faculty"){
-    setShowResetPopup(true);
-    setShowResetForm(false);
-  }else{
-     setShowResetPopup(false);
-     setShowResetForm(false);
-  }
-};
+    if (role === "faculty") {
+      setShowResetPopup(true);
+      setShowResetForm(false);
+    } else {
+      setShowResetPopup(false);
+      setShowResetForm(false);
+    }
+  };
 
   const confirmReset = () => {
     setShowResetPopup(false);
@@ -68,14 +65,12 @@ function FacultyDashboard() {
       const data = await res.json();
       if (res.ok) {
         setMessage("✅ Password updated successfully.");
-       // setShowResetForm(false);
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
         setTimeout(() => {
           setMessage(""); // Clear the message after 5 seconds
         }, 5000);
-
       } else {
         setMessage(`❌ ${data.error}`);
       }
@@ -89,14 +84,11 @@ function FacultyDashboard() {
     <div className="dashboard-container">
       <div className="sidebar">
         <h2>Faculty</h2>
-        <a href="#" onClick={() => handleResetPassword("")} >Dashboard</a>
-        <a href="#" onClick={() => handleResetPassword("")}>View Papers</a>
-        <a href="#" onClick={() => handleResetPassword("")}>Submit Questions</a>
-        {/* <a href="#" onClick={handleResetPassword}>Reset Password</a> */}
+        <a href="#">Dashboard</a>
+        <Link to="/question-paper-builder">View Papers</Link>
+        <a href="#">Submit Questions</a>
         <a href="#" onClick={() => handleResetPassword("faculty")}>Reset Password</a>
-        <a href="#" onClick={handleLogoutClick} style={{ color: "red" }}>
-          Logout
-        </a>
+        <a href="#" onClick={handleLogoutClick} style={{ color: "red" }}>Logout</a>
       </div>
 
       <div className="dashboard-content">
@@ -147,14 +139,14 @@ function FacultyDashboard() {
 
               <div className="input-wrapper">
                 <input
-                  type={showConfirm ? "text" : "password"}
+                  type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm New Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
-                <span onClick={() => setShowConfirm(!showConfirm)} className="toggle-eye">
-                  {showConfirm ? "🙈" : "👁️"}
+                <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="toggle-eye">
+                  {showConfirmPassword ? "🙈" : "👁️"}
                 </span>
               </div>
 
@@ -164,6 +156,7 @@ function FacultyDashboard() {
           </div>
         )}
       </div>
+
       {showConfirm && (
         <div className="logout-confirm-popup">
           <div className="popup-box">
